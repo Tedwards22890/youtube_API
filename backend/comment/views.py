@@ -31,3 +31,10 @@ def user_comments(request):
         comments = Comment.objects.filter(user_id=request.user.id)
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def comment_by_video_id(request, video_id):
+    comments = Comment.objects.filter(video_id=request.video.id)
+    serializer = CommentSerializer(comments, many=True)
+    return Response(serializer.data)
