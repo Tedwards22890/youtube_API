@@ -24,7 +24,7 @@ const HomePage = () => {
 
     async function fetchSearchResults(query) {
       try {
-        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${query}&key=${KEY}&type=video&maxResults=5&part=snippet`);
+        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=halo+reach&key=${KEY}&type=video&maxResults=5&part=snippet`);
         setVideos(response.data.items);
         console.log(response.data.items)
       } catch (error){
@@ -59,7 +59,7 @@ const HomePage = () => {
           <div key={i}>
             <center>
               <div className="grid-container">
-                <div className='grid-item'>{vid.items.snippet.title} vids</div>
+                <div className='grid-item'>{vid.snippet.title} vids</div>
               </div>
             </center>
           </div>
