@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import "./HomePage.css";
+import {KEY} from "../../utils/LocalKey";
 
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +22,7 @@ const HomePage = () => {
       }
     }, [token]);
 
-    async function fetchSearchResults(query="Halo", KEY="AIzaSyAYsQ8hijKDgFdCpsasYOnOqRv-FoL7SGQ") {
+    async function fetchSearchResults(query="Halo") {
       try {
         let response = await axios.get(`http://googleapis.com/youtube/v3/search?q=${query}&key=${KEY}&type=video&maxResults=5&part=snippet`);
         setVideos(response.data.items);
