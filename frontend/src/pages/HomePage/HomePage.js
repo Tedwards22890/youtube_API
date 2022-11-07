@@ -11,7 +11,7 @@ const HomePage = () => {
   // The "token" value is the JWT token that you will send in the header of any request requiring authentication
   const [user, token] = useAuth();
   const navigate = useNavigate();
-  const [videos, setVideos] = useState([])
+  const [videos, setVideos] = useState([]);
   const [query, setQuery] = useState("");
 
   useEffect(() => {
@@ -46,20 +46,29 @@ const HomePage = () => {
   
 
   return (
-    <div className="container">
       <div className="form-group">
         <form onSubmit={handleSubmit} className="form-grid">
-            <input type="text" placeholder="Name" value={query} onChange={(event) => setQuery(event.target.value)}/>
+            <input type="text" placeholder="Search..." value={query} onChange={(event) => setQuery(event.target.value)}/>
             <button type="submit">Search</button>
         </form>
-      </div>
-      {fetchSearchResults}
-    </div>
-    
+      
+      {videos.map((vid, i) => {
+      return (
+        <div key={i}>
+          <center>
+            <div className="grid-container">
+              <div className='grid-item'>{vid.videoId}</div>
+            </div>
+          </center>
+        </div>
+        
+      );
+  })}
+</div>
+  )
+}  
 
 
-  );
-};
 
 
 export default HomePage;
