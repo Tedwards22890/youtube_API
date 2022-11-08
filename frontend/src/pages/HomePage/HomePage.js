@@ -13,7 +13,7 @@ const HomePage = () => {
   const [user, token] = useAuth();
   const navigate = useNavigate();
   const [videos, setVideos] = useState([]);
-  const [query, setQuery] = useState("halo+reach");
+  const [query, setQuery] = useState();
 
   useEffect(() => {
     let mounted=true;
@@ -22,9 +22,9 @@ const HomePage = () => {
       }
     }, [token]);
 
-    async function fetchSearchResults(query) {
+    async function fetchSearchResults(query="halo+reach") {
       try {
-        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=halo+reach&key=${KEY}&type=video&maxResults=5&part=snippet`);
+        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${query}&key=${KEY}&type=video&maxResults=5&part=snippet`);
         setVideos(response.data.items);
         console.log(response.data.items)
       } catch (error){
@@ -59,7 +59,7 @@ const HomePage = () => {
           <div key={i}>
             <center>
               <div className="grid-container">
-                <div className='grid-item'>{vid.snippet.title} vids</div>
+                <div className='grid-item'><img src={vid.snippet.thumbnails.high.url} alt="videos"></img> vids</div>
               </div>
             </center>
           </div>
