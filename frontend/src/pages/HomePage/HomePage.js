@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import "./HomePage.css";
 import {KEY} from "../../utils/LocalKey";
+import {Link} from 'react-router-dom';
 
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -53,13 +54,13 @@ const HomePage = () => {
             <button type="submit">Search</button>
         </form>
 
-      
+      <Link to="videos">Videos</Link>
       {videos.map((vid, i) => {
         return (
           <div key={i}>
             <center>
               <div className="grid-container">
-                <div className='grid-item'><img src={vid.snippet.thumbnails.high.url} alt="videos"></img> vids</div>
+                <Link to="videos"><div className='grid-item'><img src={vid.snippet.thumbnails.high.url} alt="videos"></img></div></Link>
               </div>
             </center>
           </div>
