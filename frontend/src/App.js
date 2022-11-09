@@ -25,7 +25,7 @@ function App() {
               <HomePage />
             </PrivateRoute>
         } />
-        <Route path="/videos" element={
+        <Route path="/videos/:vidId/" element={
           <PrivateRoute>
             <VideoPlayer />
           </PrivateRoute>

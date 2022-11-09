@@ -60,7 +60,7 @@ const HomePage = () => {
           <div key={i}>
             <center>
               <div className="grid-container">
-                <Link to="videos"><div className='grid-item'><img src={vid.snippet.thumbnails.high.url} alt="videos"></img></div></Link>
+                <Link to={`videos/${vid.id.videoId}`}><div className='grid-item'><img src={vid.snippet.thumbnails.high.url} alt="videos"></img></div></Link>
               </div>
             </center>
           </div>
