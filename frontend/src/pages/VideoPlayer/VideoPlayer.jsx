@@ -1,68 +1,76 @@
 import { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
-import {KEY} from "../../utils/LocalKey";
-import {Link} from 'react-router-dom';
+import { useParams } from "react-router-dom";
+import { KEY } from "../../utils/LocalKey";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import "./VideoPlayer.css";
 
 const VideoPlayer = () => {
-    
-  const [videos, setVideos] = useState([]);
+  const [videos, setVideos] = useState(null);
   const [user, token] = useAuth();
   const { vidId } = useParams();
-  const { title } = useParams();
-
 
   useEffect(() => {
-    let mounted=true;
-    if (mounted) {
-      fetchSearchResults();
-      }
-    });
+    // let mounted=true;
+    // if (mounted) {
+    //   fetchSearchResults();
+    //   }
+  }, []);
+
 
   async function fetchSearchResults() {
     try {
-      let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?relatedToVideoId=${vidId}&type=video&key=${KEY}&maxResults=5&part=snippet`);
+      let response = await axios.get(
+        `https://www.googleapis.com/youtube/v3/search?relatedToVideoId=${vidId}&type=video&key=${KEY}&maxResults=5&part=snippet`
+      );
       setVideos(response.data.items);
-      console.log(response.data.items)
-    } catch (error){
-        console.log(error.message);
+      console.log(response.data.items);
+    } catch (error) {
+      console.log(error.message);
     }
-  };
-  
-    return (
-        <div>
-          <p>This is the video page</p>
-          <p>Title: {videos.title}</p>
-          <p>print the video ID</p>
-          <p>{vidId}</p>
-          
-        
+  }
 
-          <p><iframe id="ytplayer" type="text/html" title="play" width="640" height="360"
+  return (
+    <div>
+      <p>This is the video page</p>
+      <p>Title:</p>
+      <p>This is the Video ID: {vidId}</p>
+
+      <p>
+        <iframe
+          id="ytplayer"
+          type="text/html"
+          title="play"
+          width="640"
+          height="360"
           src={`https://www.youtube.com/embed/${vidId}?autoplay=1`}
-          frameborder="0"></iframe></p>
-
-{videos.map((vid, i) => {
-        return (
-          <div key={i}>
-            <center>
-              <div className="grid-container">
-                <Link to={`videos/${vid.id.videoId}`}>
-                  <div className='grid-item'>
-                    {vid.snippet.title}
-                    <br></br>
-                    <img src={vid.snippet.thumbnails.medium.url} alt="videos"></img>
-                    <br></br>
-                  </div>
-                </Link>
-              </div>
-            </center>
-          </div>
-            );
-  })}
-</div>
-  )
-} 
-  export default VideoPlayer;
+          frameborder="0"
+        ></iframe>
+      </p>
+      <button onClick={()=>{fetchSearchResults()}}>Click for Related</button>
+      {videos &&
+        videos.map((vid, i) => {
+          return (
+            <div key={i}>
+              <center>
+                <div className="grid-container">
+                  <Link to={`${vid.id.videoId}`}>
+                    <div className="grid-item">
+                      <br></br>
+                      <img
+                        src={vid.snippet.thumbnails.medium.url}
+                        alt="videos"
+                      ></img>
+                      <br></br>
+                    </div>
+                  </Link>
+                </div>
+              </center>
+            </div>
+          );
+        })}
+    </div>
+  );
+};
+export default VideoPlayer;
