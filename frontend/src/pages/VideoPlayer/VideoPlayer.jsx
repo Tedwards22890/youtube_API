@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { KEY } from "../../utils/LocalKey";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import "./VideoPlayer.css";
 
-const VideoPlayer = () => {
+const VideoPlayer = ( props ) => {
   const [videos, setVideos] = useState(null);
   const [user, token] = useAuth();
   const { vidId } = useParams();
+  const location = useLocation();
+  console.log(location)
 
   useEffect(() => {
     // let mounted=true;
@@ -34,7 +36,7 @@ const VideoPlayer = () => {
   return (
     <div>
       <p>This is the video page</p>
-      <p>Title:</p>
+      <p>Title: {props.currentVideo.snippet.title}</p>
       <p>This is the Video ID: {vidId}</p>
 
       <p>
@@ -48,6 +50,8 @@ const VideoPlayer = () => {
           frameborder="0"
         ></iframe>
       </p>
+      
+      <p> Description: {props.currentVideo.snippet.description}</p>
       <button onClick={()=>{fetchSearchResults()}}>Click for Related</button>
       {videos &&
         videos.map((vid, i) => {
@@ -55,9 +59,11 @@ const VideoPlayer = () => {
             <div key={i}>
               <center>
                 <div className="grid-container">
-                  <Link to={`${vid.id.videoId}`}>
+                  <Link to={`/video/${vid.id.videoId}`}>
                     <div className="grid-item">
                       <br></br>
+                      {vid.snippet.title}
+                      <br/>
                       <img
                         src={vid.snippet.thumbnails.medium.url}
                         alt="videos"

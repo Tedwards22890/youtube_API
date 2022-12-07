@@ -4,17 +4,19 @@ import useAuth from "../../hooks/useAuth";
 import "./HomePage.css";
 import {KEY} from "../../utils/LocalKey";
 import {Link} from 'react-router-dom';
+import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
-const HomePage = () => {
+const HomePage = (props) => {
   // The "user" value from this Hook contains the decoded logged in user information (username, first name, id)
   // The "token" value is the JWT token that you will send in the header of any request requiring authentication
   const [user, token] = useAuth();
   const navigate = useNavigate();
   const [videos, setVideos] = useState([]);
   const [query, setQuery] = useState();
+
 
   useEffect(() => {
     let mounted=true;
@@ -32,6 +34,10 @@ const HomePage = () => {
           console.log(error.message);
       }
     };
+
+    const handleButtonClick = (video) =>{
+      props.setCurrentVideo(video)
+    }
 
     const handleClick = (video) => {
       navigate(`Videos/${video.videoId}`, {
@@ -54,13 +60,15 @@ const HomePage = () => {
             <button type="submit">Search</button>
         </form>
 
-      <Link to="videos">Videos</Link>
       {videos.map((vid, i) => {
         return (
           <div key={i}>
             <center>
               <div className="grid-container">
-                <Link to={`videos/${vid.id.videoId}`}><div className='grid-item'><img src={vid.snippet.thumbnails.high.url} alt="videos"></img></div></Link>
+                <Link to={`/videos/${vid.id.videoId}`}>
+                <button type="button" onClick={() => handleButtonClick(vid)}><div className='grid-item'><img src={vid.snippet.thumbnails.high.url} alt="videos"></img></div> </button>
+                    
+                    </Link>
               </div>
             </center>
           </div>
